@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>BAH Map</title>
+        <title>VA Map Thing</title>
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <script src="https://d3js.org/topojson.v2.min.js"></script>
         <link rel="stylesheet" href="/css/main.css" />
@@ -22,29 +22,7 @@
         </header>
         <div class="map-container"><svg id="map"></svg></div>
         <!-- end div class map-container -->
-        <script>
-            const baseUrl =
-                "https://www.military.com/benefits/veteran-state-benefits";
-
-            function getStateUrl(state) {
-                stateURL = `${renameState(state)}-state-veterans-benefits.html`;
-
-                url = `${baseUrl}/${stateURL}`;
-                return url;
-            }
-
-            South - carolina;
-            // (str.includes("world")) -- returns true/false
-
-            function renameState(state) {
-                state = state.toLowerCase();
-
-                if (state.includes(" ")) {
-                    return state.replace(/\s+/, "-");
-                }
-                return state;
-            }
-        </script>
+        <footer id="footer"></footer>
         <script>
             let count = 0;
             var svg = d3.select("svg");
@@ -64,21 +42,13 @@
                         svg.append("g")
                             .attr("class", "states")
                             .selectAll("path")
-
                             .data(
                                 topojson.feature(us, us.objects.states).features
                             )
-
                             .enter()
                             .append("path")
-                            .attr("d", path)
-                            .on("click", node => {
-                                console.log(getStateUrl(names[node.id]));
-                            });
-
-                        svg.append("g")
-                            .selectAll("path")
-                            .append("path")
+                            .attr("d", path);
+                        svg.append("path")
                             .attr("class", "state-borders")
                             .attr(
                                 "d",
@@ -87,6 +57,7 @@
                                         us,
                                         us.objects.states,
                                         function(a, b) {
+                                            console.log(us.objects.states);
                                             return a !== b;
                                         }
                                     )
