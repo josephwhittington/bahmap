@@ -4,20 +4,26 @@
     padding: 0;
 }
 
+html {
+    background-color: rgb(139, 139, 139);
+}
+
 body {
     font: 15px/1.5 Arial, helvetica, sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background-color: rgb(139, 139, 139);
 }
 
 #header {
     background: #00459e;
-    color: rgb(136, 126, 126);
-    /* padding: 30px; */
+    color: whitesmoke;
     height: 8vh;
-    border-bottom: #fff 3px solid;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 header #branding {
@@ -36,8 +42,6 @@ header #branding h1 {
     background: #26519b;
     color: #fff;
     text-align: center;
-    /* padding: 20px; */
-    /* margin-top: 20px; */
     display: none;
 }
 
@@ -58,29 +62,19 @@ header #branding h1 {
     stroke-linecap: round;
     pointer-events: none;
 }
-/* svg {
-    margin: 0 auto;
-} */
 .map-container {
-    padding: 0;
-    margin: 0;
-    /* padding-left: 220; */
-    height: 90vh;
-    /* width: 100vw; */
-    /* display: flex;
+    width: 100vw;
+    display: flex;
     justify-content: center;
-    align-items: center; */
-    padding-top: 1em;
-    background: #cbcbcb;
+    align-items: center;
 }
 
 #map {
     width: 100vw;
     height: 100vh;
-    position: absolute;
-    /* left: 220px; */
-    /* border: 2px solid red; */
-    /* align-content: center; */
+    padding-left: 12%;
+    padding-right: 12%;
+    padding-top: 2%;
 }
 
 #branding {

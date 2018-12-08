@@ -21,7 +21,7 @@
             </div>
         </header>
         <div class="map-container"><svg id="map"></svg></div>
-        <!-- end div class map-container -->
+        <script src="./map.js"></script>
         <script>
             const baseUrl =
                 "https://www.military.com/benefits/veteran-state-benefits";
@@ -33,9 +33,6 @@
                 return url;
             }
 
-            South - carolina;
-            // (str.includes("world")) -- returns true/false
-
             function renameState(state) {
                 state = state.toLowerCase();
 
@@ -46,9 +43,26 @@
             }
         </script>
         <script>
+            let tooltiptext = "Tooltip";
+
+            let tooltip = d3
+                .select("body")
+                .append("div")
+                .style("position", "absolute")
+                .style("z-index", "10")
+                .style("visibility", "hidden")
+                .style("color", "white")
+                .text(tooltiptext);
+
             let count = 0;
-            var svg = d3.select("svg");
-            var path = d3.geoPath();
+            let svg = d3.select("svg");
+            let path = d3.geoPath();
+
+            let current_state = null;
+
+            const mapTable = map;
+
+            let names = {};
 
             d3.json("https://d3js.org/us-10m.v1.json", function(error, us) {
                 if (error) throw error;
@@ -56,7 +70,7 @@
                 d3.tsv(
                     "https://gist.githubusercontent.com/mbostock/4090846/raw/07e73f3c2d21558489604a0bc434b3a5cf41a867/us-state-names.tsv",
                     function(tsv) {
-                        var names = {};
+                        // let names = {};
                         tsv.forEach(function(d, i) {
                             names[d.id] = d.name;
                         });
@@ -73,7 +87,25 @@
                             .append("path")
                             .attr("d", path)
                             .on("click", node => {
-                                console.log(getStateUrl(names[node.id]));
+                                window.open(getStateUrl(names[node.id]));
+                            })
+                            .on("mouseover", (node, ...other) => {
+                                console.log(node);
+                                console.log(other);
+                            })
+                            // Tooltip
+                            .on("mouseover", node => {
+                                current_state = names[node.id];
+                                setCurrentStateText();
+                                return tooltip.style("visibility", "visible");
+                            })
+                            .on("mousemove", function() {
+                                return tooltip
+                                    .style("top", event.pageY - 10 + "px")
+                                    .style("left", event.pageX + 10 + "px");
+                            })
+                            .on("mouseout", function() {
+                                return tooltip.style("visibility", "hidden");
                             });
 
                         svg.append("g")
@@ -94,7 +126,26 @@
                             );
                     }
                 );
+
+                d3.select("body svg")
+                    .attr("r", 50)
+                    .attr("cx", 52)
+                    .attr("cy", 52);
             });
+
+            function setCurrentStateText() {
+                if (current_state) {
+                    tooltip = d3
+                        .select("body")
+                        .append("div")
+                        .style("position", "absolute")
+                        .style("z-index", "10")
+                        .style("visibility", "hidden")
+                        .style("color", "white")
+                        .text(`AVG BAH: $${mapTable[current_state]}`)
+                        .style("visibility", "visable");
+                }
+            }
         </script>
     </body>
 </html>
