@@ -1,0 +1,13 @@
+@charset "utf-8"
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.zip {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 0.5px;
+}

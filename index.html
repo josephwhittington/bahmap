@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>BAH Map</title>
+        <link rel="stylesheet" href="css/main.css" type="text/css" />
+        <link rel="shortcut icon" href="./data/va-logo.svg" />
+
+        <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+            integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+            crossorigin="anonymous"
+        />
+
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <script src="http://d3js.org/queue.v1.min.js"></script>
+        <script src="http://d3js.org/topojson.v1.min.js"></script>
+
+        <style>
+            /* Always set the map height explicitly to define the size of the div
+                 * element that contains the map. */
+            #map {
+                height: 50vh;
+                width: 100vw;
+            }
+            #second-map {
+                height: 50vh;
+                width: 100vw;
+            }
+            /* Optional: Makes the sample page fill the window. */
+            html,
+            body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+
+        <!-- GOOGlE API START -->
+        <script>
+            var map;
+            function initMap() {
+                map = new google.maps.Map(document.getElementById("map"), {
+                    center: { lat: 40.704896, lng: -74.013455 },
+                    zoom: 8
+                });
+            }
+        </script>
+
+        <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgqEEHfdTTvWdroP_5RcjoBRS6ILVnNWA&callback=initMap"
+            async
+            defer
+        ></script>
+
+        //D3 STUFF
+        <script>
+            var width = 960,
+                height = 500;
+
+            var path = d3.geo.path();
+
+            var svg = d3
+                .select("body")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+            queue()
+                .defer(d3.json, "zips_us_topo.json")
+                .await(ready);
+
+            function ready(error, us) {
+                svg.append("g")
+                    .attr("class", "counties")
+                    .selectAll("path")
+                    .data(
+                        topojson.feature(us, us.objects.zip_codes_for_the_usa)
+                            .features
+                    )
+                    .enter()
+                    .append("path")
+                    .attr("class", "zip")
+                    .attr("data-zip", function(d) {
+                        return d.properties.zip;
+                    })
+                    .attr("data-state", function(d) {
+                        return d.properties.state;
+                    })
+                    .attr("data-name", function(d) {
+                        return d.properties.name;
+                    })
+                    .attr("d", path);
+            }
+        </script>
+    </head>
+
+    <body>
+        <div id="map"></div>
+
+        <!-- DO NOT ERASE! -->
+        <p>Hey Guys!</p>
+        <!-- ^^^ DO NOT ERASE! -->
+        //D3 Shit <svg width="960" height="500"></svg>
+    </body>
+</html>
