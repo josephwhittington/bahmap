@@ -142,7 +142,11 @@
                         .style("z-index", "10")
                         .style("visibility", "hidden")
                         .style("color", "white")
-                        .text(`AVG BAH: $${mapTable[current_state]}`)
+                        .text(
+                            `${current_state}, AVG BAH: $${
+                                mapTable[current_state]
+                            }`
+                        )
                         .style("visibility", "visable");
                 }
             }
